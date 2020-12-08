@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gianvittorio.libraryapi.libraryapi.dto.BookDTO;
 import com.gianvittorio.libraryapi.libraryapi.exception.BusinessException;
 import com.gianvittorio.libraryapi.libraryapi.model.entity.Book;
+import com.gianvittorio.libraryapi.libraryapi.resource.BookController;
 import com.gianvittorio.libraryapi.libraryapi.service.BookService;
 import lombok.SneakyThrows;
 import org.hamcrest.Matchers;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest
+@WebMvcTest(controllers = BookController.class)
 @AutoConfigureMockMvc
 public class BookControllerTest {
     static String BOOK_API = "/api/v1/books";

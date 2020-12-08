@@ -1,8 +1,6 @@
 package com.gianvittorio.libraryapi.libraryapi.resource;
 
 import com.gianvittorio.libraryapi.libraryapi.dto.BookDTO;
-import com.gianvittorio.libraryapi.libraryapi.exception.BusinessException;
-import com.gianvittorio.libraryapi.libraryapi.exceptions.ApiErrors;
 import com.gianvittorio.libraryapi.libraryapi.model.entity.Book;
 import com.gianvittorio.libraryapi.libraryapi.service.BookService;
 import org.modelmapper.ModelMapper;
@@ -12,8 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -92,19 +88,5 @@ public class BookController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         return ResponseEntity.ok(responseDTO);
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleValidationExceptions(MethodArgumentNotValidException e) {
-        BindingResult bindingResult = e.getBindingResult();
-
-        return new ApiErrors(bindingResult);
-    }
-
-    @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleBusinessException(BusinessException e) {
-        return new ApiErrors(e);
     }
 }

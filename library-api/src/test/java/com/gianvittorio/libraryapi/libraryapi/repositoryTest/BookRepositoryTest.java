@@ -1,4 +1,4 @@
-package com.gianvittorio.libraryapi.libraryapi.bookRepositoryTest;
+package com.gianvittorio.libraryapi.libraryapi.repositoryTest;
 
 import com.gianvittorio.libraryapi.libraryapi.model.entity.Book;
 import com.gianvittorio.libraryapi.libraryapi.model.repository.BookRepository;
@@ -42,7 +42,7 @@ public class BookRepositoryTest {
                 .isTrue();
     }
 
-    private static Book newBook(String isbn) {
+    public static Book newBook(String isbn) {
         return Book.builder()
                 .title("Aventuras")
                 .author("Fulano")

@@ -247,6 +247,32 @@ public class BookServiceTest {
 
     }
 
+    @Test
+    @DisplayName("Must get book referred to by Isbn.")
+    public void getBookByIsbn() {
+        // Given
+        Book book = newValidBook();
+        book.setId(1l);
+
+        Mockito.when(repository.findByIsbn(book.getIsbn()))
+                .thenReturn(Optional.of(book));
+
+        // When
+        Optional<Book> foundBook = service.getBookByIsbn(book.getIsbn());
+
+        // Then
+        verify(repository).findByIsbn(book.getIsbn());
+
+        assertThat(foundBook.isPresent())
+                .isTrue();
+
+        assertThat(foundBook.get().getId())
+                .isEqualTo(book.getId());
+
+        assertThat(foundBook.get().getIsbn())
+                .isEqualTo(book.getIsbn());
+    }
+
     private static Book newValidBook() {
         return Book.builder()
                 .isbn("123")
