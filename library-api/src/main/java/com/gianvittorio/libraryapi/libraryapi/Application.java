@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.List;
-
 @SpringBootApplication
 @EnableScheduling
 public class Application {
@@ -24,12 +22,12 @@ public class Application {
     @Bean
     public CommandLineRunner runner() {
         return args -> {
-            emailService.sendMail(
-                    List.of("c36a3f12b5-fe3fcf@inbox.mailtrap.io"),
-                    "Testing email service..."
-            );
-
-            System.out.println("Email sent.");
+//            emailService.sendMail(
+//                    List.of("c36a3f12b5-fe3fcf@inbox.mailtrap.io"),
+//                    "Testing email service..."
+//            );
+//
+//            System.out.println("Email sent.");
         };
     }
 

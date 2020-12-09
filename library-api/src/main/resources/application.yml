@@ -13,6 +13,10 @@ application.mail:
   default-sender: mail@library-api.com
 
 spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8081
   mail:
     protocol: smtp
     host: smtp.mailtrap.io
@@ -25,3 +29,13 @@ spring:
           auth: true
           starttls:
             enable: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  file:
+    name: "appfile.log"
