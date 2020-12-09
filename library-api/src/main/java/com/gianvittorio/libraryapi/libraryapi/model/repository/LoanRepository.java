@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public interface LoanRepository extends JpaRepository<Loan, Long> {
     @Query(
             value = "select case when (count(l.id) > 0) then " +
@@ -21,4 +24,9 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
             @Param("isbn") String isbn,
             @Param("customer") String customer,
             Pageable pageRequest);
+
+    @Query(
+            value = "select l from Loan as l where l.loanDate <= :given_date and " +
+                    "(l.returned = null or l.returned is false)")
+    List<Loan> findByLoanDateLessThanAndNotReturned(@Param("given_date") LocalDate threeDaysAgo);
 }

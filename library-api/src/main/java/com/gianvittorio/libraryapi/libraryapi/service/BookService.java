@@ -1,6 +1,7 @@
 package com.gianvittorio.libraryapi.libraryapi.service;
 
 import com.gianvittorio.libraryapi.libraryapi.model.entity.Book;
+import com.gianvittorio.libraryapi.libraryapi.model.entity.Loan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,4 +21,6 @@ public interface BookService {
     Page<Book> find(Book filter, Pageable pageRequest);
 
     Optional<Book> getBookByIsbn(String isbn);
+
+    Page<Loan> getLoansByBook(Book book, Pageable pageable);
 }

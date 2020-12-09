@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static com.gianvittorio.libraryapi.libraryapi.repositoryTest.BookRepositoryTest.newBook;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -94,5 +95,33 @@ public class LoanRepositoryTest {
         assertThat(loans.getPageable().getPageSize())
                 .isEqualTo(pageSize);
 
+    }
+
+    @Test
+    @DisplayName("Must return loans older than given date, which have not been returned.")
+    public void findByLoanDateLessThanAndNotReturnedTest() {
+        // Given
+        String customer = "fulano";
+        String customerEmail = customer.concat("@domain.com");
+        LocalDate today = LocalDate.now();
+        LocalDate loanDate = today.minusDays(4);
+
+        Loan loan = Loan.builder()
+                .customer(customer)
+                .customerEmail(customerEmail)
+                .loanDate(loanDate)
+                .build();
+
+        entityManager.persist(loan);
+
+        // When
+        List<Loan> lateLoans = repository.findByLoanDateLessThanAndNotReturned(today);
+
+        // Then
+        assertThat(lateLoans)
+                .isNotNull();
+        assertThat(lateLoans)
+                .hasSize(1)
+                .contains(loan);
     }
 }

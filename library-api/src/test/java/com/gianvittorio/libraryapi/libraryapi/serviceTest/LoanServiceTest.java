@@ -22,6 +22,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -224,6 +226,53 @@ public class LoanServiceTest {
 
         verify(repository)
                 .findByBookIsbnOrCustomer(anyString(), anyString(), any(PageRequest.class));
+    }
+
+    @Test
+    @DisplayName("Must return loans older than given date, which have not been returned.")
+    public void findByLoanDateLessThanAndNotReturnedTest() {
+        // Given
+        String customer = "fulano";
+        String customerEmail = customer.concat("@domain.com");
+        LocalDate today = LocalDate.now();
+        LocalDate loanDate = today.minusDays(4);
+
+        Loan loan = Loan.builder()
+                .customer(customer)
+                .customerEmail(customerEmail)
+                .loanDate(loanDate)
+                .build();
+
+        when(repository.findByLoanDateLessThanAndNotReturned(loanDate))
+                .thenReturn(Collections.singletonList(loan));
+
+        // When
+        List<Loan> lateLoans = service.getAllLateLoans();
+
+        // Then
+        verify(repository)
+                .findByLoanDateLessThanAndNotReturned(loanDate);
+
+        assertThat(lateLoans)
+                .isNotNull();
+        assertThat(lateLoans)
+                .hasSize(1)
+                .contains(loan);
+    }
+
+    @Test
+    @DisplayName("Must return empty list whenever there are no late loans.")
+    public void findNotByLoanDateLessThanAndNotReturnedTest() {
+        // Given
+        when(repository.findByLoanDateLessThanAndNotReturned(any(LocalDate.class)))
+                .thenReturn(Collections.emptyList());
+
+        // When
+        List<Loan> allLateLoans = service.getAllLateLoans();
+
+        // Then
+        assertThat(allLateLoans)
+                .isEmpty();
     }
 
     public static Loan newLoan() {

@@ -9,4 +9,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     boolean existsByIsbn(String isbn);
 
     Optional<Book> findByIsbn(String isbn);
+
+//    Page<Loan> findByBook(Book , org.springframework.data.domain.Pageable );
 }

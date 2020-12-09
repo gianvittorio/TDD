@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Builder
@@ -27,4 +28,7 @@ public class Book {
 
     @Column
     private String isbn;
+
+    @OneToMany(mappedBy = "book")
+    private Set<Loan> loans;
 }

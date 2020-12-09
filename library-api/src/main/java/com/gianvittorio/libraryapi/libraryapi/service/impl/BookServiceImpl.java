@@ -2,6 +2,7 @@ package com.gianvittorio.libraryapi.libraryapi.service.impl;
 
 import com.gianvittorio.libraryapi.libraryapi.exception.BusinessException;
 import com.gianvittorio.libraryapi.libraryapi.model.entity.Book;
+import com.gianvittorio.libraryapi.libraryapi.model.entity.Loan;
 import com.gianvittorio.libraryapi.libraryapi.model.repository.BookRepository;
 import com.gianvittorio.libraryapi.libraryapi.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +71,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<Book> getBookByIsbn(String isbn) {
         return repository.findByIsbn(isbn);
+    }
+
+    @Override
+    public Page<Loan> getLoansByBook(Book book, Pageable pageable) {
+//        return repository.findByBook(book, pageable);
+        return null;
     }
 }
