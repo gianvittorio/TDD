@@ -5,6 +5,10 @@ import com.gianvittorio.libraryapi.libraryapi.dto.LoanDTO;
 import com.gianvittorio.libraryapi.libraryapi.model.entity.Book;
 import com.gianvittorio.libraryapi.libraryapi.model.entity.Loan;
 import com.gianvittorio.libraryapi.libraryapi.service.BookService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -22,12 +26,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/books")
 @AllArgsConstructor
+@Api("Books API")
 public class BookController {
     private final BookService service;
-    //private final LoanService loanService;
     private final ModelMapper modelMapper;
 
     @PostMapping
+    @ApiOperation("Create a book")
     public ResponseEntity<BookDTO> create(@RequestBody @Valid BookDTO dto) {
         Book entity = service.save(modelMapper.map(dto, Book.class));
 
@@ -36,6 +41,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
+    @ApiOperation("Obtains book details referred to by id")
     public ResponseEntity<BookDTO> get(@PathVariable Long id) {
         BookDTO book = service.getById(id)
                 .map(b -> modelMapper.map(b, BookDTO.class))
@@ -46,6 +52,7 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Find books by params")
     public Page<BookDTO> find(
             BookDTO dto,
             Pageable pageRequest
@@ -65,6 +72,12 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation("Deletes book referred to by id")
+    @ApiResponses(
+            {
+                    @ApiResponse(code = 204, message = "Book successfully deleted")
+            }
+    )
     public void delete(@PathVariable Long id) throws IllegalAccessException {
         Book book = service.getById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -73,6 +86,7 @@ public class BookController {
     }
 
     @PutMapping("{id}")
+    @ApiOperation("Updates book referred to by id")
     public ResponseEntity<BookDTO> update(@PathVariable Long id, @RequestBody BookDTO bookDTO) {
         BookDTO responseDTO = service.getById(id)
                 .map(b -> {

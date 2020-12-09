@@ -1,0 +1,27 @@
+#application.mail.lateloans.message=Loan has expired
+#application.mail.default-sender=mail@library-api.com
+#spring.mail.protocol=smtp
+#spring.mail.host=smtp.mailtrap.io
+#spring.mail.port=2525
+#spring.mail.username=3ff99ebc0d31d1
+#spring.mail.password=71505599a6c224
+#spring.mail.properties.mail.smtp.auth=true
+#spring.mail.properties.mail.smtp.starttls.enable=true
+
+application.mail:
+  lateloans.message: Loan has expired
+  default-sender: mail@library-api.com
+
+spring:
+  mail:
+    protocol: smtp
+    host: smtp.mailtrap.io
+    port: 2525
+    username: 3ff99ebc0d31d1
+    password: 71505599a6c224
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
